@@ -33,13 +33,23 @@ function render(variables = {}) {
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
+          <h1>${variables.name ? variables.name : "Lucy"} 
+          ${variables.lastname ? variables.lastname : "Boilett"} </h1>
+          <h2>${variables.role ? variables.role : ""} </h2>
+          <h3>${variables.city ? variables.city : ""}, ${
+    variables.country ? variables.country : ""
+  } </h3>
+
           <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://twitter.com/${
+              variables.twitter ? variables.twitter : "4geeksacademy"
+            }"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="https://github.com/${
+              variables.github ? variables.github : ""
+            }"><i class="fab fa-github"></i></a></li>
+            <li><a href="https://linkedin.com/${
+              variables.linkedin ? variables.linkedin : ""
+            }"><i class="fab fa-linkedin"></i></a></li>
             <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
           </ul>
         </div>
@@ -77,14 +87,23 @@ window.onload = function() {
       // <- add a listener to every input
       const attribute = e.target.getAttribute("for"); // when any input changes, collect the value
       let values = {};
-      values[attribute] =
-        this.value == "" || this.value == "null"
-          ? null
-          : this.value == "true"
-          ? true
-          : this.value == "false"
-          ? false
-          : this.value;
+      // values[attribute] =
+      //   this.value == "" || this.value == "null"
+      //     ? null
+      //     : this.value == "true"
+      //     ? true
+      //     : this.value == "false"
+      //     ? false
+      //     : this.value;
+      if (this.value == "" || this.value == "null") {
+        values[attribute] = null;
+      } else if (this.value == "true") {
+        values[attribute] = true;
+      } else if (this.value == "false") {
+        values[attribute] = false;
+      } else {
+        values[attribute] = this.value;
+      }
       render(Object.assign(window.variables, values)); // render again the card with new valus
     });
   });
